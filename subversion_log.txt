@@ -1,0 +1,435 @@
+URL to view log online:
+https://source.eait.uq.edu.au/viewvc/csse2310-sem1-s4800761/trunk/a3/?view=log
+
+Retrieving logs at Thu May 9 21:18:45 AEST 2024
+------------------------------------------------------------------------
+r1 | uqpsutto | 2024-02-21 19:56:36 +1000 (Wed, 21 Feb 2024) | 1 line
+Changed paths:
+   A /play
+   A /prac
+   A /trunk
+   A /trunk/a1
+   A /trunk/a3
+   A /trunk/a4
+
+Initial repository structure
+
+
+------------------------------------------------------------------------
+r30 | s4800761 | 2024-04-15 22:31:02 +1000 (Mon, 15 Apr 2024) | 2 lines
+Changed paths:
+   A /trunk/a3/uqfindexec.c
+
+Preliminary commit; checking that it works.
+
+
+Index: uqfindexec.c
+ uqfindexec.c |    1 +
+ 1 file changed, 1 insertion(+)
+
+------------------------------------------------------------------------
+r31 | s4800761 | 2024-04-16 20:58:37 +1000 (Tue, 16 Apr 2024) | 3 lines
+Changed paths:
+   A /trunk/a3/Makefile
+   M /trunk/a3/uqfindexec.c
+
+Added parse_command_line function, which goes through the command line and extracts relevant arguments/flags. Does not handle 'cmd' input.
+Created CommandLineOptions struct, which models command line options.
+
+
+Index: Makefile
+ Makefile |   27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
+Index: uqfindexec.c
+ uqfindexec.c |  114 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 114 insertions(+)
+
+------------------------------------------------------------------------
+r32 | s4800761 | 2024-04-16 22:04:41 +1000 (Tue, 16 Apr 2024) | 3 lines
+Changed paths:
+   M /trunk/a3/Makefile
+   M /trunk/a3/uqfindexec.c
+
+The library, "csse2310a3.h" was included in uqfindexec.c as well as appropriate flags in Makefile.
+parse_command_line function can now extract "cmd" argument from command line.
+
+
+Index: Makefile
+ Makefile |   14 ++------------
+ 1 file changed, 2 insertions(+), 12 deletions(-)
+Index: uqfindexec.c
+ uqfindexec.c |   59 +++++++++++++++++++++++++++++------------------------------
+ 1 file changed, 29 insertions(+), 30 deletions(-)
+
+------------------------------------------------------------------------
+r33 | s4800761 | 2024-04-17 22:25:46 +1000 (Wed, 17 Apr 2024) | 2 lines
+Changed paths:
+   M /trunk/a3/uqfindexec.c
+
+Added function check_dir_and_cmd, which checks the validity of the given directory name and command.
+
+
+Index: uqfindexec.c
+ uqfindexec.c |   57 +++++++++++++++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 55 insertions(+), 2 deletions(-)
+
+------------------------------------------------------------------------
+r34 | s4800761 | 2024-04-20 21:50:27 +1000 (Sat, 20 Apr 2024) | 4 lines
+Changed paths:
+   M /trunk/a3/uqfindexec.c
+
+Improved upon iterate_over_files_in_dir to now execute any simple command (instead of just "echo" like before).
+Has functionality to replace "{}" with each filename within directory, then execute the command each time.
+Does not have stdin or stdout redirection.
+
+
+Index: uqfindexec.c
+ uqfindexec.c |   89 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 85 insertions(+), 4 deletions(-)
+
+------------------------------------------------------------------------
+r35 | s4800761 | 2024-04-21 09:49:01 +1000 (Sun, 21 Apr 2024) | 3 lines
+Changed paths:
+   M /trunk/a3/uqfindexec.c
+
+Broke iterate_over_files_in_dir function into smaller functions that adhere more to the hints in the spec.
+Created new functions execute_command_on_single_file and substitute_placeholder.
+
+
+Index: uqfindexec.c
+ uqfindexec.c |  153 ++++++++++++++++++++++++++++++++++++-----------------------
+ 1 file changed, 94 insertions(+), 59 deletions(-)
+
+------------------------------------------------------------------------
+r36 | s4800761 | 2024-04-23 07:58:09 +1000 (Tue, 23 Apr 2024) | 3 lines
+Changed paths:
+   M /trunk/a3/uqfindexec.c
+
+Added execute_command_pipeline, which supports functionality for executing a series of commands rather than just a single one.
+Also implements stdin and stdout redirection.
+
+
+Index: uqfindexec.c
+ uqfindexec.c |  114 ++++++++++++++++++++++++++++++++++++++++++++++-------------
+ 1 file changed, 90 insertions(+), 24 deletions(-)
+
+------------------------------------------------------------------------
+r37 | s4800761 | 2024-04-25 12:09:03 +1000 (Thu, 25 Apr 2024) | 2 lines
+Changed paths:
+   M /trunk/a3/uqfindexec.c
+
+Fixed bug in creating filepath name. No longer affects options.dirname.
+
+
+Index: uqfindexec.c
+ uqfindexec.c |  178 +++++++++++++++++++++++++++++------------------------------
+ 1 file changed, 89 insertions(+), 89 deletions(-)
+
+------------------------------------------------------------------------
+r38 | s4800761 | 2024-04-25 18:10:06 +1000 (Thu, 25 Apr 2024) | 2 lines
+Changed paths:
+   M /trunk/a3/uqfindexec.c
+
+Fixed placeholder substitution, particularly by adding a new "substitute_placeholder_file" function which can be used to replace the placeholder "{}" in an infile or outfile.
+
+
+Index: uqfindexec.c
+ uqfindexec.c |  100 +++++++++++++++++++++++++++++++++++++++++++++--------------
+ 1 file changed, 77 insertions(+), 23 deletions(-)
+
+------------------------------------------------------------------------
+r39 | s4800761 | 2024-04-25 18:36:53 +1000 (Thu, 25 Apr 2024) | 2 lines
+Changed paths:
+   M /trunk/a3/uqfindexec.c
+
+Added read_error and write_error for infile and outfile respectively, including error messages and when they should be called when executing a command.
+
+
+Index: uqfindexec.c
+ uqfindexec.c |   64 +++++++++++++++++++++++++++++++++++++++--------------------
+ 1 file changed, 43 insertions(+), 21 deletions(-)
+
+------------------------------------------------------------------------
+r40 | s4800761 | 2024-04-26 10:13:19 +1000 (Fri, 26 Apr 2024) | 2 lines
+Changed paths:
+   M /trunk/a3/uqfindexec.c
+
+Fixed bug where outfiles could not be written problem due to invalid permission.
+
+
+Index: uqfindexec.c
+ uqfindexec.c |   15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
+
+------------------------------------------------------------------------
+r41 | s4800761 | 2024-04-27 13:02:58 +1000 (Sat, 27 Apr 2024) | 3 lines
+Changed paths:
+   M /trunk/a3/uqfindexec.c
+
+Added command pipeline support in execute_single_command (which will hopefully turn into execute_pipeline).
+Have made two arrays, an input array and an output array, where file descriptors in the arrays link one command to the next.
+
+
+Index: uqfindexec.c
+ uqfindexec.c |  135 +++++++++++++++++++++++++++++++++++++++++------------------
+ 1 file changed, 94 insertions(+), 41 deletions(-)
+
+------------------------------------------------------------------------
+r42 | s4800761 | 2024-04-27 14:51:46 +1000 (Sat, 27 Apr 2024) | 3 lines
+Changed paths:
+   M /trunk/a3/uqfindexec.c
+
+Started restructuring program so it constantly returns to main.
+Implemented directory scanning and filtering, with new functions get_directory and filter_directory, along with new struct Directory.
+
+
+Index: uqfindexec.c
+ uqfindexec.c |   67 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 66 insertions(+), 1 deletion(-)
+
+------------------------------------------------------------------------
+r43 | s4800761 | 2024-04-27 19:06:56 +1000 (Sat, 27 Apr 2024) | 2 lines
+Changed paths:
+   M /trunk/a3/uqfindexec.c
+
+Added function rename_files, which will create a new struct DirArray (array and count of file names in directory) and rename files with their appropriate directory pathway precursor.
+
+
+Index: uqfindexec.c
+ uqfindexec.c |   54 ++++++++++++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 50 insertions(+), 4 deletions(-)
+
+------------------------------------------------------------------------
+r44 | s4800761 | 2024-04-28 14:32:12 +1000 (Sun, 28 Apr 2024) | 2 lines
+Changed paths:
+   M /trunk/a3/uqfindexec.c
+
+Again modified the structure of the program to get past a stat(2) problem. Program now finds the name of the file with the directory pathway BEFORE checking stat, meaning that the DirArray is also created before. Added functions generate_filtered_directory, get_true_file_name, and add_file_to_dir_array.
+
+
+Index: uqfindexec.c
+ uqfindexec.c |   84 +++++++++++++++++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 79 insertions(+), 5 deletions(-)
+
+------------------------------------------------------------------------
+r45 | s4800761 | 2024-04-29 21:15:54 +1000 (Mon, 29 Apr 2024) | 2 lines
+Changed paths:
+   M /trunk/a3/uqfindexec.c
+
+Got rid of functions no longer being used - including the likes of iterate_over_files_in_dir and free_array.
+
+
+Index: uqfindexec.c
+ uqfindexec.c |  210 ++++++++---------------------------------------------------
+ 1 file changed, 32 insertions(+), 178 deletions(-)
+
+------------------------------------------------------------------------
+r46 | s4800761 | 2024-05-02 22:18:05 +1000 (Thu, 02 May 2024) | 3 lines
+Changed paths:
+   M /trunk/a3/uqfindexec.c
+
+Finally got piping to work. Was able to do this by changing my original method of creating two file descriptor arrays (inputFd and outputFd) to having one array holding only pipes.
+This also allowed me to now put redirection INSIDE of the for loop which makes exit statistics far easier.
+
+
+Index: uqfindexec.c
+ uqfindexec.c |  232 +++++++++++++++++++++++++++++++----------------------------
+ 1 file changed, 124 insertions(+), 108 deletions(-)
+
+------------------------------------------------------------------------
+r47 | s4800761 | 2024-05-03 12:03:59 +1000 (Fri, 03 May 2024) | 2 lines
+Changed paths:
+   M /trunk/a3/uqfindexec.c
+
+Added correct exit statuses based on exit statuses of commands being executed. This was implemented in execute_command_pipeline.
+
+
+Index: uqfindexec.c
+ uqfindexec.c |   89 +++++++++++++++++++++++++++++++++++++++++------------------
+ 1 file changed, 63 insertions(+), 26 deletions(-)
+
+------------------------------------------------------------------------
+r48 | s4800761 | 2024-05-03 12:51:38 +1000 (Fri, 03 May 2024) | 2 lines
+Changed paths:
+   M /trunk/a3/uqfindexec.c
+
+Fixed a bug. If --directory "." was given, "./" would not be added to filename during filename substitution as "." was set to the default directory if --directory was not set (that's a hard to read sentence). Now, if --directory "." is given, it will add "./" to the start of any filenames, if not, it will not add anything.
+
+
+Index: uqfindexec.c
+ uqfindexec.c |   18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
+
+------------------------------------------------------------------------
+r49 | s4800761 | 2024-05-04 12:18:37 +1000 (Sat, 04 May 2024) | 2 lines
+Changed paths:
+   M /trunk/a3/uqfindexec.c
+
+General cleaning up, broke execute_command_pipeline into smaller functions, getting rid of code repetition and compartmentalising functionality. New functions: setup_io_redirections, close_pipe_fds, and wait_for_children.
+
+
+Index: uqfindexec.c
+ uqfindexec.c |  132 ++++++++++++++++++++++++++++++++++++-----------------------
+ 1 file changed, 82 insertions(+), 50 deletions(-)
+
+------------------------------------------------------------------------
+r50 | s4800761 | 2024-05-07 13:59:27 +1000 (Tue, 07 May 2024) | 2 lines
+Changed paths:
+   M /trunk/a3/uqfindexec.c
+
+Changed sub_file function. Originally I had it as a recursive function, which worked alright, but I was getting frustrated with the structure and that it took an (at first call) unitialised variable to be added onto. Fixed it by writing new function sub_placeholder_in_string, which is now sequential.
+
+
+Index: uqfindexec.c
+ uqfindexec.c |  102 +++++++++++++++++++++++++++++++++++++++++++++++++++++------
+ 1 file changed, 92 insertions(+), 10 deletions(-)
+
+------------------------------------------------------------------------
+r51 | s4800761 | 2024-05-07 14:32:31 +1000 (Tue, 07 May 2024) | 2 lines
+Changed paths:
+   M /trunk/a3/uqfindexec.c
+
+Added sub_placeholders function, which implements functionality to initialise a struct which I've long had in my code. It takes a CommandPipeline*, and copies its contents over with placeholder substituted entities, returning a struct SubbedPipeline. Also added free_subbedpipeline whihc frees the contents.
+
+
+Index: uqfindexec.c
+ uqfindexec.c |  108 +++++++++++++++++++++++++++++------------------------------
+ 1 file changed, 54 insertions(+), 54 deletions(-)
+
+------------------------------------------------------------------------
+r52 | s4800761 | 2024-05-07 14:59:02 +1000 (Tue, 07 May 2024) | 3 lines
+Changed paths:
+   M /trunk/a3/uqfindexec.c
+
+Modified execute_command_pipeline to take a struct SubbedPipeline, rather than taking a CommandPipeline and handling placeholder substitution within the function. Functionality-wise, it is not too different, although it no longer calls error functions, and hence no longer prints error messages.
+P.S. I am on absolute demon mode flow state today, I am unstoppable.
+
+
+Index: uqfindexec.c
+ uqfindexec.c |   64 +++++++++++++++++++++++++----------------------------------
+ 1 file changed, 28 insertions(+), 36 deletions(-)
+
+------------------------------------------------------------------------
+r53 | s4800761 | 2024-05-07 20:42:36 +1000 (Tue, 07 May 2024) | 3 lines
+Changed paths:
+   M /trunk/a3/uqfindexec.c
+
+Fixed bug in code where children would still be created and execute commands later in the pipeline despite there already being an infile/outfile issue.
+Fixed this by restructuring stdin/stdout redirection: checking if infile and outfile can be opened before created children, and if they can't, don't create child processes.
+
+
+Index: uqfindexec.c
+ uqfindexec.c |  203 ++++++++++++++++++++++++++++++++++++-----------------------
+ 1 file changed, 125 insertions(+), 78 deletions(-)
+
+------------------------------------------------------------------------
+r54 | s4800761 | 2024-05-07 22:00:17 +1000 (Tue, 07 May 2024) | 2 lines
+Changed paths:
+   M /trunk/a3/uqfindexec.c
+
+Slightly changed the structure of how pipelines are executed and waited on. Behviourally they are the same, although now execute_command_pipeline, while still returning a struct PidArray, now returns a PidArray which contains an array of struct ChildWorker. The ChildWorker struct is created for each child process created to execute a command, and contains the pid of the child, as well as the file name it was trying to process and the command it was trying to execute. This opens avenues for implementation of "parallel".
+
+
+Index: uqfindexec.c
+ uqfindexec.c |   75 ++++++++++++++++++++++++++++++-----------------------------
+ 1 file changed, 39 insertions(+), 36 deletions(-)
+
+------------------------------------------------------------------------
+r55 | s4800761 | 2024-05-08 18:12:15 +1000 (Wed, 08 May 2024) | 2 lines
+Changed paths:
+   M /trunk/a3/uqfindexec.c
+
+Turned statistics handling into function update_stats, while also fixing a bug where stats wouldn't process cases where all commands exit with status 0.
+
+
+Index: uqfindexec.c
+ uqfindexec.c |   45 +++++++++++++++++++++++++--------------------
+ 1 file changed, 25 insertions(+), 20 deletions(-)
+
+------------------------------------------------------------------------
+r56 | s4800761 | 2024-05-08 19:22:17 +1000 (Wed, 08 May 2024) | 4 lines
+Changed paths:
+   M /trunk/a3/uqfindexec.c
+
+Added parallel execution functionality. Created a new struct PidLog which stores an array of struct PidArrays returned by execute_command_pipeline.
+Also added new function add_pidarray_to_log, which adds a PidArray to PidLog.
+Added new parallel handling functionality in main.
+
+
+Index: uqfindexec.c
+ uqfindexec.c |   35 ++++++++++++++++++++++++++++++++---
+ 1 file changed, 32 insertions(+), 3 deletions(-)
+
+------------------------------------------------------------------------
+r57 | s4800761 | 2024-05-08 20:34:24 +1000 (Wed, 08 May 2024) | 2 lines
+Changed paths:
+   M /trunk/a3/uqfindexec.c
+
+Fixed memory leaks by adding free_childworker and free_pidarray functions.
+
+
+Index: uqfindexec.c
+ uqfindexec.c |   90 +++++++++++++++++++++++++++++++++++++++++++++++++----------
+ 1 file changed, 76 insertions(+), 14 deletions(-)
+
+------------------------------------------------------------------------
+r58 | s4800761 | 2024-05-08 21:27:53 +1000 (Wed, 08 May 2024) | 2 lines
+Changed paths:
+   M /trunk/a3/uqfindexec.c
+
+Fixed memory bug where memory was getting corrupted and sending SIGABRT due to way ChildWorkers were initialised. Fixed initialisation using strdup.
+
+
+Index: uqfindexec.c
+ uqfindexec.c |   12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
+
+------------------------------------------------------------------------
+r59 | s4800761 | 2024-05-08 23:20:26 +1000 (Wed, 08 May 2024) | 2 lines
+Changed paths:
+   M /trunk/a3/uqfindexec.c
+
+A lot of tidying up and adding a couple docstrings where I'd missed them before. Split up a couple of functions into subfunctions, so there are a couple new functions. This includes iterate_files and compute_exit_status.
+
+
+Index: uqfindexec.c
+ uqfindexec.c |  563 ++++++++++++++++++++++++++++++++++++++---------------------
+ 1 file changed, 364 insertions(+), 199 deletions(-)
+
+------------------------------------------------------------------------
+r60 | s4800761 | 2024-05-09 20:50:01 +1000 (Thu, 09 May 2024) | 2 lines
+Changed paths:
+   M /trunk/a3/uqfindexec.c
+
+Final cleaning, tidying, and organising functions in order.
+
+
+Index: uqfindexec.c
+ uqfindexec.c |  458 +++++++++++++++++++++++++++++++++++++----------------------
+ 1 file changed, 292 insertions(+), 166 deletions(-)
+
+------------------------------------------------------------------------
+r61 | s4800761 | 2024-05-09 20:53:39 +1000 (Thu, 09 May 2024) | 2 lines
+Changed paths:
+   M /trunk/a3/uqfindexec.c
+
+Slight renaming of functions to adhere to capitalisation guidelines.
+
+
+Index: uqfindexec.c
+ uqfindexec.c |   34 +++++++++++++++++-----------------
+ 1 file changed, 17 insertions(+), 17 deletions(-)
+
+------------------------------------------------------------------------
+r62 | s4800761 | 2024-05-09 21:18:00 +1000 (Thu, 09 May 2024) | 2 lines
+Changed paths:
+   M /trunk/a3/Makefile
+
+Unchanged, but committing as it has a status 'M'.
+
+
+Index: Makefile
+ Makefile |    9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
+
+------------------------------------------------------------------------
